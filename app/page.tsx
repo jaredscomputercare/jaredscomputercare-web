@@ -318,7 +318,7 @@ const About = () => {
           
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6">
-              Jared Messner IT Services
+              Jared's Computer Care
             </h2>
             <p className="text-lg text-slate-600 mb-6">
               Based right here in Addison County, Vermont, I provide personalized IT support that big box stores just can't match. 
@@ -448,7 +448,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     name="phone"
                     required
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    placeholder="(802) 555-0123"
+                    placeholder="(802) 123-4567"
                   />
                 </div>
               </div>
@@ -521,7 +521,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   rows={4}
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  placeholder="Briefly describe the issue..."
+                  placeholder="Briefly describe the request or issue..."
                 />
               </div>
 
