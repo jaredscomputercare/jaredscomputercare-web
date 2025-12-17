@@ -318,7 +318,7 @@ const About = () => {
           
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6">
-              Jared's Computer Care
+              Jared Messner IT Services
             </h2>
             <p className="text-lg text-slate-600 mb-6">
               Based right here in Addison County, Vermont, I provide personalized IT support that big box stores just can't match. 
@@ -331,7 +331,7 @@ const About = () => {
               {[
                 "Locally Owned & Operated",
                 "Fast Turnaround Times",
-                "On-Site & Remote Support"
+                "On-Site & Remote Support",
               ].map((item, i) => (
                 <div key={i} className="flex items-center">
                   <CheckCircle2 className="text-green-500 mr-3" size={20} />
@@ -347,73 +347,11 @@ const About = () => {
 };
 
 const ContactPage = ({ onNavigate }: ContactPageProps) => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: 'Computer Repairs & Upgrades', // Default Service
-    message: ''
-  });
-  const [file, setFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData();
-    formData.append("name", formState.name);
-    formData.append("email", formState.email);
-    formData.append("phone", formState.phone);
-    formData.append("service", formState.service);
-    formData.append("message", formState.message);
-    if (file) {
-      formData.append("attachment", file);
-    }
-    // FormSubmit Configuration (Hidden fields)
-    formData.append("_subject", `New Inquiry from ${formState.name} - ${formState.service}`);
-    formData.append("_captcha", "false"); // Optional: Disable captcha for smoother XP
-
-    try {
-      const response = await fetch("https://formsubmit.co/ajax/jaredscomputercare@gmail.com", {
-        method: "POST",
-        body: formData
-      });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormState({ 
-          name: '', 
-          email: '', 
-          phone: '', 
-          service: 'Computer Repairs & Upgrades', 
-          message: '' 
-        });
-        setFile(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
-      } else {
-        alert("Something went wrong. Please try calling us directly.");
-      }
-    } catch (error) {
-      console.error("Submission error", error);
-      alert("There was an error sending your message. Please try calling us.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormState({
-      ...formState,
-      [e.target.name]: e.target.value
-    });
-  };
+  const [fileName, setFileName] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      setFileName(e.target.files[0].name);
     }
   };
 
@@ -479,147 +417,125 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
           <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
             
-            {isSubmitted ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center animate-fade-in">
-                <CheckCircle2 className="mx-auto text-green-500 h-12 w-12 mb-4" />
-                <h3 className="text-lg font-medium text-green-800">Message Sent!</h3>
-                <p className="text-green-600 mt-2">Thanks for reaching out. Jared will get back to you shortly.</p>
-                <button 
-                  onClick={() => setIsSubmitted(false)}
-                  className="mt-6 text-sm text-green-700 font-medium hover:underline"
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formState.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      value={formState.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      placeholder="(802) 555-0123"
-                    />
-                  </div>
-                </div>
+            <form 
+              action="https://formsubmit.co/jaredscomputercare@gmail.com" 
+              method="POST" 
+              encType="multipart/form-data"
+              className="space-y-6"
+            >
+              {/* FormSubmit Configuration */}
+              <input type="hidden" name="_subject" value="New Inquiry - Jared's Computer Care" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="true" />
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="name"
+                    name="name"
                     required
-                    value={formState.email}
-                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    placeholder="john@example.com"
+                    placeholder="John Doe"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-slate-700 mb-1">Service Type</label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formState.service}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
-                  >
-                    <option>Computer Repairs & Upgrades</option>
-                    <option>Custom PC Builds</option>
-                    <option>Phone Repair</option>
-                    <option>Hardware Procurement</option>
-                    <option>Virus Removal</option>
-                    <option>Computer Cleaning</option>
-                    <option>Website Development</option>
-                    <option>Networking & Wifi</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="attachment" className="block text-sm font-medium text-slate-700 mb-1">Attachment (Optional)</label>
-                  <div className="relative">
-                    <input
-                      type="file"
-                      id="attachment"
-                      name="attachment"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      className="hidden" // Hide default input
-                    />
-                    <label 
-                      htmlFor="attachment" 
-                      className="flex items-center justify-center w-full px-4 py-2 border border-dashed border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors text-slate-600"
-                    >
-                      {file ? (
-                        <span className="flex items-center text-blue-600 font-medium">
-                          <Paperclip size={16} className="mr-2" />
-                          {file.name}
-                        </span>
-                      ) : (
-                        <span className="flex items-center">
-                          <UploadCloud size={18} className="mr-2 text-slate-400" />
-                          Click to upload image or file
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">How can we help?</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
+                  <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
                     required
-                    value={formState.message}
-                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    placeholder="Briefly describe the issue..."
+                    placeholder="(802) 555-0123"
                   />
                 </div>
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''}`}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="service" className="block text-sm font-medium text-slate-700 mb-1">Service Type</label>
+                <select
+                  id="service"
+                  name="service"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
                 >
-                  {isSubmitting ? (
-                    'Sending...'
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="ml-2" size={18} />
-                    </>
-                  )}
-                </button>
-                <p className="text-xs text-slate-500 text-center mt-4">
-                  We respect your privacy. Your information is never shared.
-                </p>
-              </form>
-            )}
+                  <option>Computer Repairs & Upgrades</option>
+                  <option>Custom PC Builds</option>
+                  <option>Phone Repair</option>
+                  <option>Hardware Procurement</option>
+                  <option>Virus Removal</option>
+                  <option>Computer Cleaning</option>
+                  <option>Website Development</option>
+                  <option>Networking & WiFi</option>
+                  <option>Other... </option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="attachment" className="block text-sm font-medium text-slate-700 mb-1">Attachment (Optional)</label>
+                <div className="relative">
+                  <input
+                    type="file"
+                    id="attachment"
+                    name="attachment"
+                    onChange={handleFileChange}
+                    className="hidden" // Hide default input
+                  />
+                  <label 
+                    htmlFor="attachment" 
+                    className="flex items-center justify-center w-full px-4 py-2 border border-dashed border-slate-300 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors text-slate-600"
+                  >
+                    {fileName ? (
+                      <span className="flex items-center text-blue-600 font-medium">
+                        <Paperclip size={16} className="mr-2" />
+                        {fileName}
+                      </span>
+                    ) : (
+                      <span className="flex items-center">
+                        <UploadCloud size={18} className="mr-2 text-slate-400" />
+                        Click to upload image or file
+                      </span>
+                    )}
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">How can we help?</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={4}
+                  required
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  placeholder="Briefly describe the issue..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md"
+              >
+                Send Message
+                <Send className="ml-2" size={18} />
+              </button>
+              <p className="text-xs text-slate-500 text-center mt-4">
+                We respect your privacy. Your information is never shared.
+              </p>
+            </form>
           </div>
         </div>
       </div>
