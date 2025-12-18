@@ -347,12 +347,36 @@ const About = () => {
 };
 
 const ContactPage = ({ onNavigate }: ContactPageProps) => {
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    device: 'Laptop',
+    message: ''
+  });
   const [fileName, setFileName] = useState<string | null>(null);
+  
+  // State for the current URL to pass to FormSubmit for redirection
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  useEffect(() => {
+    // Get the current window URL (e.g., https://jareds-computer-care.vercel.app/)
+    if (typeof window !== 'undefined') {
+        setCurrentUrl(window.location.href);
+    }
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFileName(e.target.files[0].name);
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
@@ -425,8 +449,11 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
             >
               {/* FormSubmit Configuration */}
               <input type="hidden" name="_subject" value="New Inquiry - Jared's Computer Care" />
-              <input type="hidden" name="_template" value="table" />
-              <input type="hidden" name="_captcha" value="true" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_autoresponse" value="Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly." />
+              
+              {/* Redirect back to the current page (home or contact) after submission */}
+              <input type="hidden" name="_next" value={currentUrl} />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -438,6 +465,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     required
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     placeholder="John Doe"
+                    onChange={handleChange}
                   />
                 </div>
                 <div>
@@ -449,6 +477,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     required
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     placeholder="(802) 555-0123"
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -462,6 +491,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                   placeholder="john@example.com"
+                  onChange={handleChange}
                 />
               </div>
 
@@ -471,6 +501,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   id="service"
                   name="service"
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                  onChange={handleChange}
                 >
                   <option>Computer Repairs & Upgrades</option>
                   <option>Custom PC Builds</option>
@@ -522,6 +553,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                   placeholder="Briefly describe the issue..."
+                  onChange={handleChange}
                 />
               </div>
 
