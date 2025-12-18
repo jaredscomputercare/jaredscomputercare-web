@@ -21,8 +21,7 @@ import {
   Globe,
   Plus,
   Paperclip,
-  UploadCloud,
-  Linkedin
+  UploadCloud
 } from 'lucide-react';
 
 // --- Types ---
@@ -44,13 +43,6 @@ interface ServiceCardProps {
   title: string;
   description: string;
   icon: LucideIcon;
-}
-
-interface TeamMemberProps {
-  name: string;
-  role: string;
-  bio: string;
-  imageSrc: string;
 }
 
 interface ContactPageProps {
@@ -100,7 +92,6 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
           <div className="hidden md:flex items-center space-x-8">
             <button onClick={() => handleNavClick('home', 'services')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">Services</button>
             <button onClick={() => handleNavClick('home', 'about')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">About</button>
-            <button onClick={() => handleNavClick('home', 'team')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">Team</button>
             <button onClick={() => handleNavClick('contact')} className={`text-base font-medium transition-colors ${currentPage === 'contact' ? 'text-blue-400' : 'text-slate-300 hover:text-white'}`}>Contact</button>
             
             <a 
@@ -130,7 +121,6 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
           <div className="px-4 pt-2 pb-6 space-y-2">
             <button onClick={() => handleNavClick('home', 'services')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Services</button>
             <button onClick={() => handleNavClick('home', 'about')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">About</button>
-            <button onClick={() => handleNavClick('home', 'team')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Team</button>
             <button onClick={() => handleNavClick('contact')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Contact</button>
             <a 
               href="tel:8023987650" 
@@ -299,70 +289,6 @@ const Services = () => {
     </section>
   );
 };
-
-const TeamMember = ({ name, role, bio, imageSrc }: TeamMemberProps) => (
-  <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 flex flex-col items-center text-center group">
-    <div className="w-32 h-32 mb-6 relative">
-        <div className="absolute inset-0 bg-blue-100 rounded-full transform rotate-6 group-hover:rotate-12 transition-transform duration-300"></div>
-        <div className="absolute inset-0 bg-green-50 rounded-full transform -rotate-3 group-hover:-rotate-6 transition-transform duration-300"></div>
-        <img 
-            src={imageSrc} 
-            alt={name}
-            className="w-full h-full rounded-full object-cover relative z-10 border-4 border-white shadow-md group-hover:scale-105 transition-transform duration-300"
-        />
-    </div>
-    <h3 className="text-xl font-bold text-slate-900 mb-1">{name}</h3>
-    <p className="text-blue-600 font-medium mb-4 text-sm uppercase tracking-wide">{role}</p>
-    <p className="text-slate-600 text-sm leading-relaxed mb-6">{bio}</p>
-    
-    <div className="flex space-x-3 mt-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <a href="#" className="p-2 bg-slate-100 rounded-full text-slate-500 hover:bg-blue-100 hover:text-blue-600 transition-colors">
-            <Linkedin size={18} />
-        </a>
-        <a href="#" className="p-2 bg-slate-100 rounded-full text-slate-500 hover:bg-blue-100 hover:text-blue-600 transition-colors">
-            <Mail size={18} />
-        </a>
-    </div>
-  </div>
-);
-
-const Team = () => {
-    const team = [
-        {
-            name: "Jared Messner",
-            role: "Founder & Lead Technician",
-            bio: "Expert in hardware repair, networking, and custom PC builds. Jared started this company with a mission to bring honest, reliable IT support to Addison County.",
-            imageSrc: "/assets/headshot.png"
-        },
-        {
-            name: "Join Our Team",
-            role: "We are hiring!",
-            bio: "Are you passionate about technology and helping people? We are looking for talented technicians to join our growing team.",
-            imageSrc: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" // Placeholder
-        }
-    ];
-
-    return (
-        <section id="team" className="py-24 bg-slate-50 border-t border-slate-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">Our Team</h2>
-                    <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                        Meet the Experts
-                    </p>
-                    <p className="mt-4 text-xl text-slate-600">
-                        Dedicated professionals ready to solve your tech challenges.
-                    </p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-                    {team.map((member, index) => (
-                        <TeamMember key={index} {...member} />
-                    ))}
-                </div>
-            </div>
-        </section>
-    )
-}
 
 const About = () => {
   return (
@@ -554,23 +480,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   <option>Computer Cleaning</option>
                   <option>Website Development</option>
                   <option>Networking & Wifi</option>
-                  <option>And Much More</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="device" className="block text-sm font-medium text-slate-700 mb-1">Device Type</label>
-                <select
-                  id="device"
-                  name="device"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
-                >
-                  <option>Laptop (Windows)</option>
-                  <option>Desktop PC</option>
-                  <option>Macbook / iMac</option>
-                  <option>iPhone / iPad</option>
-                  <option>Android Phone/Tablet</option>
-                  <option>Other / Networking</option>
+                  <option>Other...</option>
                 </select>
               </div>
 
@@ -719,7 +629,6 @@ export default function App() {
           <>
             <Hero onNavigate={handleNavigate} />
             <Services />
-            <Team />
             <About />
           </>
         ) : (
