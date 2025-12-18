@@ -171,7 +171,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
             
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
               <span style={{ textShadow: "0 4px 10px rgba(0,0,0,0.9)" }}>
-                Expert IT Services <br className="hidden md:block" />
+                IT Services <br className="hidden md:block" />
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 pb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
                 & Computer Repair
