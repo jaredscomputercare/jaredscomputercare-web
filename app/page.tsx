@@ -21,7 +21,9 @@ import {
   Globe,
   Plus,
   Paperclip,
-  UploadCloud
+  UploadCloud,
+  Linkedin,
+  Search
 } from 'lucide-react';
 
 // --- Types ---
@@ -157,7 +159,6 @@ const Hero = ({ onNavigate }: HeroProps) => {
              <img 
               src="/assets/mainlogo.png" 
               alt="Jared's Computer Care Logo" 
-              // Added explicit high-opacity drop shadow
               className="w-full max-w-lg h-auto max-h-80 object-contain drop-shadow-2xl lg:max-w-full lg:max-h-[30rem] drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]" 
             />
           </div>
@@ -171,7 +172,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
             
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
               <span style={{ textShadow: "0 4px 10px rgba(0,0,0,0.9)" }}>
-                IT Services <br className="hidden md:block" />
+                Expert IT Services <br className="hidden md:block" />
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 pb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
                 & Computer Repair
@@ -346,6 +347,43 @@ const About = () => {
   );
 };
 
+const Certifications = () => {
+  // Update these src paths with the actual names of your PNG files 
+  // once you put them in your /public/assets/ folder.
+  const certs = [
+    { name: 'CompTIA A+', src: '/assets/A+.png' },
+    { name: 'CompTIA Network+', src: '/assets/Network+.png' },
+    { name: 'CompTIA Security+', src: '/assets/Security+.png' },
+    { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
+    { name: 'Cisco CCNA', src: '/assets/CCNA.png' }
+  ];
+
+  return (
+    <section className="py-10 bg-slate-50 border-t border-b border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+          Industry Certifications & Partnerships
+        </p>
+        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+          {certs.map((cert, index) => (
+            <div 
+              key={index} 
+              className="flex justify-center items-center h-12 md:h-16 w-auto opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-default"
+              title={cert.name}
+            >
+              <img 
+                src={cert.src} 
+                alt={cert.name} 
+                className="max-h-full w-auto object-contain"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const ContactPage = ({ onNavigate }: ContactPageProps) => {
   const [formState, setFormState] = useState({
     name: '',
@@ -511,7 +549,24 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   <option>Computer Cleaning</option>
                   <option>Website Development</option>
                   <option>Networking & Wifi</option>
-                  <option>Other...</option>
+                  <option>And Much More</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="device" className="block text-sm font-medium text-slate-700 mb-1">Device Type</label>
+                <select
+                  id="device"
+                  name="device"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                  onChange={handleChange}
+                >
+                  <option>Laptop (Windows)</option>
+                  <option>Desktop PC</option>
+                  <option>Macbook / iMac</option>
+                  <option>iPhone / iPad</option>
+                  <option>Android Phone/Tablet</option>
+                  <option>Other / Networking</option>
                 </select>
               </div>
 
@@ -622,7 +677,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
         </div>
         
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
-          <p>© 2025 Jared's Computer Care. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Jared's Computer Care. All rights reserved.</p>
           <p className="mt-2 md:mt-0">Based in Middlebury, VT.</p>
         </div>
       </div>
@@ -662,6 +717,7 @@ export default function App() {
             <Hero onNavigate={handleNavigate} />
             <Services />
             <About />
+            <Certifications />
           </>
         ) : (
           <ContactPage onNavigate={handleNavigate} />
