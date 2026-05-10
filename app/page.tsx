@@ -172,7 +172,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
             
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
               <span style={{ textShadow: "0 4px 10px rgba(0,0,0,0.9)" }}>
-                IT Services <br className="hidden md:block" />
+                Expert IT Services <br className="hidden md:block" />
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 pb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
                 & Computer Repair
@@ -319,7 +319,7 @@ const About = () => {
           
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6">
-              Jared's IT Services
+              Jared Messner IT Services
             </h2>
             <p className="text-lg text-slate-600 mb-6">
               Based right here in Addison County, Vermont, I provide personalized IT support that big box stores just can't match. 
@@ -351,18 +351,17 @@ const Certifications = () => {
   // Update these src paths with the actual names of your PNG files 
   // once you put them in your /public/assets/ folder.
   const certs = [
-    { name: 'CompTIA A+', src: '/assets/A+.png' },
-    { name: 'CompTIA Network+', src: '/assets/Network+.png' },
-    { name: 'CompTIA Security+', src: '/assets/Security+.png' },
-    { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
-    { name: 'Cisco CCNA', src: '/assets/CCNA.png' }
+    { name: 'CompTIA A+', src: '/assets/cert1.png' },
+    { name: 'Microsoft Certified', src: '/assets/cert2.png' },
+    { name: 'Cisco Certified', src: '/assets/cert3.png' },
+    { name: 'Apple Certified', src: '/assets/cert4.png' },
   ];
 
   return (
-    <section className="py-10 bg-slate-50 border-t border-b border-slate-200">
+    <section className="py-12 bg-slate-50 border-t border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
-          Industry Certifications
+        <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">
+          Industry Certifications & Partnerships
         </p>
         <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
           {certs.map((cert, index) => (
@@ -374,7 +373,7 @@ const Certifications = () => {
               <img 
                 src={cert.src} 
                 alt={cert.name} 
-                className="max-h-full w-auto object-contain"
+                className="max-h-full w-auto object-contain drop-shadow-sm"
               />
             </div>
           ))}
@@ -394,13 +393,14 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
   });
   const [fileName, setFileName] = useState<string | null>(null);
   
-  // State for the current URL to pass to FormSubmit for redirection
-  const [currentUrl, setCurrentUrl] = useState('');
+  // State for the redirect URL
+  const [redirectUrl, setRedirectUrl] = useState('');
 
   useEffect(() => {
-    // Get the current window URL (e.g., https://jareds-computer-care.vercel.app/)
+    // Tell FormSubmit to send the user back to the home page WITH a success flag
     if (typeof window !== 'undefined') {
-        setCurrentUrl(window.location.href);
+        const baseUrl = window.location.origin;
+        setRedirectUrl(`${baseUrl}/?success=true`);
     }
   }, []);
 
@@ -490,8 +490,8 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_autoresponse" value="Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly." />
               
-              {/* Redirect back to the current page (home or contact) after submission */}
-              <input type="hidden" name="_next" value={currentUrl} />
+              {/* THIS is the modified redirect URL containing the success flag */}
+              <input type="hidden" name="_next" value={redirectUrl} />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -549,7 +549,24 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   <option>Computer Cleaning</option>
                   <option>Website Development</option>
                   <option>Networking & Wifi</option>
-                  <option>Other...</option>
+                  <option>And Much More</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="device" className="block text-sm font-medium text-slate-700 mb-1">Device Type</label>
+                <select
+                  id="device"
+                  name="device"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                  onChange={handleChange}
+                >
+                  <option>Laptop (Windows)</option>
+                  <option>Desktop PC</option>
+                  <option>Macbook / iMac</option>
+                  <option>iPhone / iPad</option>
+                  <option>Android Phone/Tablet</option>
+                  <option>Other / Networking</option>
                 </select>
               </div>
 
@@ -670,6 +687,22 @@ const Footer = ({ onNavigate }: FooterProps) => {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // This checks the URL for the ?success=true flag when the page loads
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      if (urlParams.get('success') === 'true') {
+        // Show the success pop-up!
+        setShowSuccessModal(true);
+        
+        // Clean up the URL bar so it doesn't say ?success=true anymore (keeps it looking professional)
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, []);
 
   const handleNavigate = (page: string, sectionId?: string) => {
     setCurrentPage(page);
@@ -691,7 +724,7 @@ export default function App() {
   };
 
   return (
-    <div className="font-sans antialiased text-slate-900 bg-slate-50 min-h-screen">
+    <div className="font-sans antialiased text-slate-900 bg-slate-50 min-h-screen relative">
       <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
       
       <main>
@@ -708,6 +741,27 @@ export default function App() {
       </main>
       
       <Footer onNavigate={handleNavigate} />
+
+      {/* SUCCESS MODAL POPUP */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 transition-all">
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-100 transition-transform">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle2 className="text-green-600" size={32} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">Message Sent!</h3>
+            <p className="text-slate-600 mb-8">
+              Thank you for reaching out. We have received your message and will get back to you shortly.
+            </p>
+            <button
+              onClick={() => setShowSuccessModal(false)}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg"
+            >
+              Back to Website
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
