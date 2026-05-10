@@ -362,13 +362,13 @@ const Certifications = () => {
     <section className="py-10 bg-slate-50 border-t border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
-          Industry Certifications & Partnerships
+          Industry Certifications
         </p>
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
           {certs.map((cert, index) => (
             <div 
               key={index} 
-              className="flex justify-center items-center h-12 md:h-16 w-auto opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-default"
+              className="flex justify-center items-center h-20 md:h-28 w-auto opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-default"
               title={cert.name}
             >
               <img 
