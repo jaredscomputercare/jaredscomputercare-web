@@ -550,7 +550,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   <option>Computer Cleaning</option>
                   <option>Website Development</option>
                   <option>Networking & Wifi</option>
-                  <option>And Much More</option>
+                  <option>Other...</option>
                 </select>
               </div>
 
