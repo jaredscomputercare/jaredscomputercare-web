@@ -172,7 +172,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
             
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
               <span style={{ textShadow: "0 4px 10px rgba(0,0,0,0.9)" }}>
-                Expert IT Services <br className="hidden md:block" />
+                IT Services <br className="hidden md:block" />
               </span>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 pb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
                 & Computer Repair
@@ -319,7 +319,7 @@ const About = () => {
           
           <div>
             <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6">
-              Jared Messner IT Services
+              Jared's IT Services
             </h2>
             <p className="text-lg text-slate-600 mb-6">
               Based right here in Addison County, Vermont, I provide personalized IT support that big box stores just can't match. 
@@ -549,24 +549,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   <option>Computer Cleaning</option>
                   <option>Website Development</option>
                   <option>Networking & Wifi</option>
-                  <option>And Much More</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="device" className="block text-sm font-medium text-slate-700 mb-1">Device Type</label>
-                <select
-                  id="device"
-                  name="device"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
-                  onChange={handleChange}
-                >
-                  <option>Laptop (Windows)</option>
-                  <option>Desktop PC</option>
-                  <option>Macbook / iMac</option>
-                  <option>iPhone / iPad</option>
-                  <option>Android Phone/Tablet</option>
-                  <option>Other / Networking</option>
+                  <option>Other...</option>
                 </select>
               </div>
 
