@@ -544,7 +544,7 @@ const Certifications = () => {
     { name: 'CompTIA Security+', src: '/assets/Security+.png' },
     { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
     { name: 'Cisco CCNA', src: '/assets/CCNA.png' },
-    { name: 'Microsoft SC-300', src: '/assets/image_4f52fc.png', customClass: 'scale-90' }
+    { name: 'Microsoft SC-300', src: '/assets/SC-300.png', customClass: 'scale-90' }
   ];
 
   return (
