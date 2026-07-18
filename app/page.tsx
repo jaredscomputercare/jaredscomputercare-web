@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Phone, 
   Mail, 
@@ -22,8 +22,10 @@ import {
   Plus,
   Paperclip,
   UploadCloud,
-  Linkedin,
-  Search
+  DollarSign,
+  Clock,
+  Leaf,
+  Map
 } from 'lucide-react';
 
 // --- Types ---
@@ -75,7 +77,7 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
   };
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900 shadow-lg py-2' : 'bg-slate-900/95 py-4'}`}>
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-900 shadow-lg py-2' : 'bg-slate-900/95 py-2 md:py-3'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
@@ -85,14 +87,16 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
           >
             <img 
               src="/assets/navbarlogo.png" 
-              alt="Jared's Computer Care" 
-              className="h-16 md:h-20 w-auto object-contain drop-shadow-xl"
+              alt="Jared's Computer Care Logo" 
+              className="h-10 md:h-14 w-auto object-contain drop-shadow-xl"
             />
           </div>
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             <button onClick={() => handleNavClick('home', 'services')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">Services</button>
+            <button onClick={() => handleNavClick('home', 'pricing')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">Pricing</button>
+            <button onClick={() => handleNavClick('home', 'service-area')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">Service Area</button>
             <button onClick={() => handleNavClick('home', 'about')} className="text-slate-300 hover:text-white transition-colors text-base font-medium">About</button>
             <button onClick={() => handleNavClick('contact')} className={`text-base font-medium transition-colors ${currentPage === 'contact' ? 'text-blue-400' : 'text-slate-300 hover:text-white'}`}>Contact</button>
             
@@ -122,6 +126,8 @@ const Navbar = ({ onNavigate, currentPage }: NavbarProps) => {
         <div className="md:hidden bg-slate-800 absolute w-full border-t border-slate-700 shadow-xl">
           <div className="px-4 pt-2 pb-6 space-y-2">
             <button onClick={() => handleNavClick('home', 'services')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Services</button>
+            <button onClick={() => handleNavClick('home', 'pricing')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Pricing</button>
+            <button onClick={() => handleNavClick('home', 'service-area')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Service Area</button>
             <button onClick={() => handleNavClick('home', 'about')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">About</button>
             <button onClick={() => handleNavClick('contact')} className="block w-full text-left px-3 py-3 text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700 rounded-md">Contact</button>
             <a 
@@ -144,7 +150,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
       <div className="absolute inset-0 z-0">
         <img 
           src="/assets/herobg.png" 
-          alt="Jared's Computer Care Background" 
+          alt="Abstract technology background for Jared's Computer Care" 
           className="w-full h-full object-cover"
         />
         {/* Darkish Overlay */}
@@ -158,7 +164,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
           <div className="mb-8 lg:mb-0 flex justify-center lg:justify-start">
              <img 
               src="/assets/mainlogo.png" 
-              alt="Jared's Computer Care Logo" 
+              alt="Jared's Computer Care Main Logo - IT Services in Vermont" 
               className="w-full max-w-lg h-auto max-h-80 object-contain drop-shadow-2xl lg:max-w-full lg:max-h-[30rem] drop-shadow-[0_10px_10px_rgba(0,0,0,0.8)]" 
             />
           </div>
@@ -183,7 +189,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
               className="mt-2 max-w-2xl mx-auto lg:mx-0 text-lg text-slate-300 mb-6"
               style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}
             >
-              Fast, reliable support for your home or business. We fix tech headaches so you can get back to what matters.
+              Fast, reliable support for your home or business. We fix tech headaches locally so you can get back to what matters.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -212,7 +218,7 @@ const Hero = ({ onNavigate }: HeroProps) => {
 const ServiceCard = ({ title, description, icon: Icon }: ServiceCardProps) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group">
     <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-50 transition-colors">
-      <Icon className="text-blue-600 group-hover:scale-110 transition-transform duration-300" size={24} />
+      <Icon className="text-blue-600 group-hover:scale-110 transition-transform duration-300" size={24} aria-hidden="true" />
     </div>
     <h3 className="text-lg font-bold text-slate-900 mb-2">{title}</h3>
     <p className="text-slate-600 text-sm leading-relaxed">{description}</p>
@@ -223,47 +229,47 @@ const Services = () => {
   const services = [
     {
       title: "Computer Repairs & Upgrades",
-      description: "Comprehensive diagnostics, hardware repairs, screen replacements, and performance upgrades for both desktops and laptops.",
+      description: "Comprehensive diagnostics, hardware repairs, screen replacements, and performance upgrades for both desktop computers and laptops.",
       icon: Monitor
     },
     {
       title: "Custom PC Builds",
-      description: "Expertly assembled custom computers for gaming, video editing, or office productivity, tailored to your budget.",
+      description: "Expertly assembled custom computers for gaming, video editing, or office productivity, tailored precisely to your budget.",
       icon: Cpu
     },
     {
-      title: "Phone Repair",
-      description: "Screen replacements, battery swaps, and diagnostics for iPhone and Android devices.",
+      title: "Phone & Tablet Repair",
+      description: "Screen replacements, battery swaps, and in-depth diagnostics for iPhone, iPad, and Android mobile devices.",
       icon: Smartphone
     },
     {
       title: "Hardware Procurement",
-      description: "Sourcing and setup of bulk computer orders for businesses and schools. We handle the logistics and configuration.",
+      description: "Sourcing and setup of bulk computer orders for local VT businesses and schools. We handle the logistics and configuration.",
       icon: Package
     },
     {
-      title: "Virus Removal",
-      description: "Complete malware detection and removal. We secure your system and protect your personal data from future threats.",
+      title: "Virus & Malware Removal",
+      description: "Complete malware detection and removal. We secure your system and protect your personal data from future cyber threats.",
       icon: ShieldCheck
     },
     {
       title: "Computer Cleaning",
-      description: "Physical dust removal to prevent overheating, thermal paste re-application, and system optimization.",
+      description: "Physical dust removal to prevent overheating, thermal paste re-application, and operating system optimization.",
       icon: Wind
     },
     {
       title: "Website Development",
-      description: "Custom, responsive websites designed to grow your business. From landing pages to full online stores.",
+      description: "Custom, responsive websites designed to grow your business. From landing pages to full online e-commerce stores.",
       icon: Globe
     },
     {
       title: "Networking & Wifi",
-      description: "Home and office network setup, troubleshooting connectivity issues, and optimizing WiFi range and speed.",
+      description: "Home and office network setup, troubleshooting connectivity issues, and optimizing WiFi range and internet speed.",
       icon: Wifi
     },
     {
       title: "And Much More",
-      description: "Don't see what you need? We probably do it. Call us to discuss your specific technology requirements.",
+      description: "Don't see what you need? We probably do it. Call us to discuss your specific technology and smart home requirements.",
       icon: Plus
     }
   ];
@@ -277,7 +283,7 @@ const Services = () => {
             Complete Tech Solutions
           </p>
           <p className="mt-4 text-xl text-slate-600">
-            From cracked screens to complex networks, we have the tools and expertise to handle it all.
+            From cracked screens to complex networks, we have the tools and expertise to handle it all right here in Addison County.
           </p>
         </div>
 
@@ -291,11 +297,119 @@ const Services = () => {
   );
 };
 
+const Pricing = () => {
+  return (
+    <section id="pricing" className="py-24 bg-white border-t border-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-base font-semibold text-blue-600 tracking-wide uppercase">No Surprises</h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+            Transparent Pricing
+          </p>
+          <p className="mt-4 text-xl text-slate-600">
+            We believe in honest, straightforward pricing for all our local IT and computer repair services.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Hourly Rate Card */}
+          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+            <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-blue-100 rounded-full opacity-50"></div>
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-2xl font-bold text-slate-900">Hourly Rate</h3>
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600">
+                <Clock size={24} />
+              </div>
+            </div>
+            <div className="mb-4 relative z-10">
+              <span className="text-5xl font-extrabold text-blue-600">$75</span>
+              <span className="text-slate-500 font-medium ml-2">/ hour</span>
+            </div>
+            <p className="text-slate-600 relative z-10">
+              Our standard rate for computer repairs, network setups, virus removal, and general IT troubleshooting.
+            </p>
+          </div>
+
+          {/* Minimum Fee Card */}
+          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+             <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-green-100 rounded-full opacity-50"></div>
+            <div className="flex items-center justify-between mb-4 relative z-10">
+              <h3 className="text-2xl font-bold text-slate-900">Minimum Fee</h3>
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-green-600">
+                <DollarSign size={24} />
+              </div>
+            </div>
+            <div className="mb-4 relative z-10">
+              <span className="text-5xl font-extrabold text-green-600">$50</span>
+              <span className="text-slate-500 font-medium ml-2">minimum</span>
+            </div>
+            <p className="text-slate-600 relative z-10">
+              Applies to all service calls and acts as a base diagnostic fee. If the repair is quick, this is all you pay!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ServiceArea = () => {
+  const towns = [
+    "Addison", "Brandon", "Bridport", "Bristol", 
+    "Cornwall", "Ferrisburgh", "Goshen", "Granville", 
+    "Hancock", "Leicester", "Lincoln", "Middlebury", 
+    "Monkton", "New Haven", "Orwell", "Panton", 
+    "Ripton", "Rochester", "Salisbury", "Shoreham", "Starksboro", 
+    "Vergennes", "Waltham", "Weybridge", "Whiting"
+  ];
+
+  return (
+    <section id="service-area" className="py-24 bg-slate-900 text-white border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div className="lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+          
+          {/* Left Column: Text & Info */}
+          <div className="lg:col-span-5 mb-12 lg:mb-0">
+            <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6">
+              <Map className="text-blue-400" size={32} />
+            </div>
+            <h2 className="text-3xl font-extrabold mb-4 text-white">Our Service Area</h2>
+            <p className="text-slate-300 mb-8 text-lg leading-relaxed">
+              We provide top-tier computer repair, networking, and IT support across Addison County and beyond. While these are our primary hubs, we proudly serve <strong className="text-white">all surrounding communities</strong>. We bring our mobile tech services directly to you.
+            </p>
+            <div className="inline-block bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-sm">
+              <p className="text-sm text-slate-300">
+                <span className="text-blue-400 font-bold">Please note:</span> A <strong className="text-white">$0.75 / mile</strong> travel fee applies for services located outside our standard coverage area.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column: Pill Tag Grid */}
+          <div className="lg:col-span-7 flex flex-wrap gap-3 lg:gap-4">
+            {towns.map((town) => (
+              <div 
+                key={town} 
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/80 border border-slate-600 backdrop-blur-sm shadow-[0_4px_6px_rgba(0,0,0,0.5)] hover:border-slate-500 transition-colors cursor-default"
+              >
+                <span className="flex h-2 w-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.8)]"></span>
+                <span className="text-sm text-slate-200 font-medium" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.8)" }}>{town}</span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 const About = () => {
   return (
     <section id="about" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
           <div className="mb-12 lg:mb-0 relative">
             <div className="absolute top-0 left-0 -ml-4 -mt-4 w-24 h-24 bg-blue-100 rounded-full z-0 opacity-50"></div>
             <div className="relative z-10 bg-slate-900 rounded-2xl p-8 shadow-2xl text-white">
@@ -303,7 +417,7 @@ const About = () => {
                  {/* Headshot Image */}
                 <img 
                   src="/assets/headshot.png" 
-                  alt="Jared Messner" 
+                  alt="Jared Messner - Founder of Jared's Computer Care" 
                   className="w-20 h-20 rounded-full object-cover border-2 border-blue-500 shadow-md"
                 />
                 <div>
@@ -315,27 +429,41 @@ const About = () => {
                 "My goal is simple: to make technology work for you, not against you. I believe in honest pricing, transparent communication, and getting the job done right the first time."
               </p>
             </div>
+
+            {/* Repair First Philosophy Box */}
+            <div className="mt-8 bg-green-50 border border-green-200 rounded-2xl p-8 relative overflow-hidden shadow-sm">
+              <Leaf className="absolute -bottom-6 -right-6 text-green-100 h-40 w-40 transform rotate-12" />
+              <h3 className="text-2xl font-bold text-green-800 mb-3 flex items-center gap-3 relative z-10">
+                <Leaf size={28} className="text-green-600" />
+                Our "Repair First" Philosophy
+              </h3>
+              <p className="text-green-900 relative z-10 leading-relaxed font-medium">
+                We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when absolutely necessary. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
+              </p>
+            </div>
+
           </div>
           
           <div>
-            <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6">
+            <h2 className="text-3xl font-extrabold text-slate-900 sm:text-4xl mb-6 mt-4 lg:mt-0">
               Jared Messner IT Services
             </h2>
             <p className="text-lg text-slate-600 mb-6">
-              Based right here in Addison County, Vermont, I provide personalized IT support that big box stores just can't match. 
+              Based right here in Addison County, Vermont, I provide personalized IT support and tech repair that big box stores just can't match. 
             </p>
             <p className="text-lg text-slate-600 mb-8">
-              With years of experience troubleshooting everything from vintage desktops to modern smart home networks, I understand that every tech problem is unique. I treat your devices with the same care I'd treat my own.
+              With years of experience troubleshooting everything from vintage desktop computers to modern smart home networks, I understand that every tech problem is unique. I treat your devices with the exact same care I'd treat my own.
             </p>
             
             <div className="space-y-4">
               {[
-                "Locally Owned & Operated",
+                "Locally Owned & Operated in Middlebury area",
+                "Honest, Transparent Pricing",
                 "Fast Turnaround Times",
-                "On-Site & Remote Support",
+                "On-Site & Remote Tech Support",
               ].map((item, i) => (
                 <div key={i} className="flex items-center">
-                  <CheckCircle2 className="text-green-500 mr-3" size={20} />
+                  <CheckCircle2 className="text-blue-500 mr-3" size={20} />
                   <span className="text-slate-700 font-medium">{item}</span>
                 </div>
               ))}
@@ -348,32 +476,31 @@ const About = () => {
 };
 
 const Certifications = () => {
-  // Update these src paths with the actual names of your PNG files 
-  // once you put them in your /public/assets/ folder.
   const certs = [
     { name: 'CompTIA A+', src: '/assets/A+.png' },
     { name: 'CompTIA Network+', src: '/assets/Network+.png' },
     { name: 'CompTIA Security+', src: '/assets/Security+.png' },
     { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
-    { name: 'Cisco CCNA', src: '/assets/CCNA.png' }
+    { name: 'Cisco CCNA', src: '/assets/CCNA.png' },
+    { name: 'Microsoft SC-300', src: '/assets/SC-300.png' }
   ];
 
   return (
-    <section className="py-10 bg-slate-50 border-t border-b border-slate-200">
+    <section className="py-12 bg-slate-50 border-t border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
-          Industry Certifications
+        <p className="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">
+          Industry Certifications & Qualifications
         </p>
-        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-20">
+        <div className="flex flex-wrap justify-center items-center gap-10 md:gap-16">
           {certs.map((cert, index) => (
             <div 
               key={index} 
-              className="flex justify-center items-center h-20 md:h-28 w-auto opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-default"
+              className="flex justify-center items-center h-16 md:h-24 w-auto opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300 cursor-default"
               title={cert.name}
             >
               <img 
                 src={cert.src} 
-                alt={cert.name} 
+                alt={`${cert.name} Certification Badge`} 
                 className="max-h-full w-auto object-contain"
               />
             </div>
@@ -393,8 +520,6 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
     message: ''
   });
   const [fileName, setFileName] = useState<string | null>(null);
-  
-  // State for the redirect URL
   const [redirectUrl, setRedirectUrl] = useState('');
 
   useEffect(() => {
@@ -437,7 +562,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
           <div>
             <h1 className="text-4xl font-extrabold text-slate-900 mb-6">Get in Touch</h1>
             <p className="text-lg text-slate-600 mb-8">
-              Have a computer problem? Need a quote for a custom build? Fill out the form or use the contact details below. We usually respond within 24 hours.
+              Have a computer problem? Need a quote for a custom build or networking job? Fill out the form or use the contact details below. We usually respond within 24 hours.
             </p>
 
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-8">
@@ -459,7 +584,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-slate-900">Email</h3>
                   <p className="mt-1 text-slate-600">For general inquiries and quotes</p>
-                  <a href="mailto:jaredscomputercare@gmail.com" className="mt-2 block text-blue-600 font-semibold hover:underline">jaredscomputercare@gmail.com</a>
+                  <a href="mailto:jared@jaredscomputercare.com" className="mt-2 block text-blue-600 font-semibold hover:underline">jared@jaredscomputercare.com</a>
                 </div>
               </div>
 
@@ -470,7 +595,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-slate-900">Service Area</h3>
                   <p className="mt-1 text-slate-600">Mobile Service Available</p>
-                  <p className="mt-2 text-slate-900 font-medium">Proudly Serving Addison County, VT</p>
+                  <p className="mt-2 text-slate-900 font-medium">Proudly Serving Addison County, VT & Surrounding Towns</p>
                 </div>
               </div>
             </div>
@@ -481,7 +606,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
             
             <form 
-              action="https://formsubmit.co/jaredscomputercare@gmail.com" 
+              action="https://formsubmit.co/jared@jaredscomputercare.com" 
               method="POST" 
               encType="multipart/form-data"
               className="space-y-6"
@@ -491,7 +616,6 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_autoresponse" value="Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly." />
               
-              {/* THIS is the modified redirect URL containing the success flag */}
               <input type="hidden" name="_next" value={redirectUrl} />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -562,7 +686,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     id="attachment"
                     name="attachment"
                     onChange={handleFileChange}
-                    className="hidden" // Hide default input
+                    className="hidden" 
                   />
                   <label 
                     htmlFor="attachment" 
@@ -637,7 +761,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
             </div>
             <div className="flex items-start space-x-3 text-slate-300">
               <Mail className="flex-shrink-0 text-blue-500 mt-1" size={18} />
-              <span>jaredscomputercare@gmail.com</span>
+              <span>jared@jaredscomputercare.com</span>
             </div>
             <div className="flex items-start space-x-3 text-slate-300">
               <MapPin className="flex-shrink-0 text-green-500 mt-1" size={18} />
@@ -673,16 +797,12 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  // This checks the URL for the ?success=true flag when the page loads
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
       
       if (urlParams.get('success') === 'true') {
-        // Show the success pop-up!
         setShowSuccessModal(true);
-        
-        // Clean up the URL bar so it doesn't say ?success=true anymore (keeps it looking professional)
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
@@ -691,7 +811,6 @@ export default function App() {
   const handleNavigate = (page: string, sectionId?: string) => {
     setCurrentPage(page);
     
-    // Handle scrolling for anchors on the home page
     if (page === 'home' && sectionId) {
       setTimeout(() => {
         const element = sectionId === 'top' 
@@ -716,6 +835,8 @@ export default function App() {
           <>
             <Hero onNavigate={handleNavigate} />
             <Services />
+            <Pricing />
+            <ServiceArea />
             <About />
             <Certifications />
           </>
