@@ -25,7 +25,8 @@ import {
   DollarSign,
   Clock,
   Leaf,
-  Map
+  Map,
+  Star
 } from 'lucide-react';
 
 // --- Types ---
@@ -406,6 +407,30 @@ const ServiceArea = () => {
 };
 
 const About = () => {
+  const reviews = [
+    {
+      name: "Jerry N.",
+      initial: "J",
+      color: "bg-blue-600",
+      time: "2 months ago",
+      text: "I took my laptop to Jared after it stopped working entirely. He diagnosed the issue quickly, replaced the hard drive, and upgraded the RAM. It now runs even better than the day I bought it. Highly recommend his services for any tech repairs!"
+    },
+    {
+      name: "Tre B.",
+      initial: "T",
+      color: "bg-green-600",
+      time: "1 month ago",
+      text: "Great service. Jared is very understanding and easy to work with. Super intelligent as well."
+    },
+    {
+      name: "Darcie L.",
+      initial: "D",
+      color: "bg-purple-600",
+      time: "2 weeks ago",
+      text: "Jared goes above and beyond and knows what he's doing, he's passionate about building and repairing electronics, I'd recommend him to anyone. He's upfront about pricing and super knowledgable. He's also fast and very responsive!"
+    }
+  ];
+
   return (
     <section id="about" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -438,7 +463,7 @@ const About = () => {
                 Our "Repair First" Philosophy
               </h3>
               <p className="text-green-900 relative z-10 leading-relaxed font-medium">
-                We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when absolutely necessary. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
+                We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when necessary. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
               </p>
             </div>
 
@@ -461,6 +486,7 @@ const About = () => {
                 "Honest, Transparent Pricing",
                 "Fast Turnaround Times",
                 "On-Site & Remote Tech Support",
+                "Repair First Philosophy"
               ].map((item, i) => (
                 <div key={i} className="flex items-center">
                   <CheckCircle2 className="text-blue-500 mr-3" size={20} />
@@ -470,6 +496,42 @@ const About = () => {
             </div>
           </div>
         </div>
+
+        {/* Reviews Section */}
+        <div className="mt-24 pt-16 border-t border-slate-100">
+          <div className="text-center mb-12">
+            <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
+            <p className="text-lg text-slate-600">See what our customers have to say</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {reviews.map((review, index) => (
+              <div key={index} className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative">
+                
+                <div className="flex items-center gap-4 mb-4">
+                  <div className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg shadow-inner`}>
+                    {review.initial}
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900">{review.name}</p>
+                    <p className="text-xs text-slate-500 font-medium">{review.time}</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                
+                <p className="text-slate-600 italic leading-relaxed">
+                  "{review.text}"
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -482,7 +544,7 @@ const Certifications = () => {
     { name: 'CompTIA Security+', src: '/assets/Security+.png' },
     { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
     { name: 'Cisco CCNA', src: '/assets/CCNA.png' },
-    { name: 'Microsoft SC-300', src: '/assets/SC-300.png' }
+    { name: 'Microsoft SC-300', src: '/assets/image_4f52fc.png', customClass: 'scale-90' }
   ];
 
   return (
@@ -501,7 +563,7 @@ const Certifications = () => {
               <img 
                 src={cert.src} 
                 alt={`${cert.name} Certification Badge`} 
-                className="max-h-full w-auto object-contain"
+                className={`max-h-full w-auto object-contain ${cert.customClass || ''}`}
               />
             </div>
           ))}
@@ -785,7 +847,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
         </div>
         
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-500 text-sm">
-          <p>© {new Date().getFullYear()} Jared's Computer Care. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Jared's Computer Care LLC | All rights reserved.</p>
           <p className="mt-2 md:mt-0">Based in Middlebury, VT.</p>
         </div>
       </div>
