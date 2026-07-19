@@ -10,6 +10,8 @@ import {
   Wind, 
   Cpu, 
   Smartphone, 
+  Gamepad2,
+  Gauge,
   Menu, 
   X,
   ChevronRight,
@@ -234,29 +236,29 @@ const Services = () => {
       icon: Monitor
     },
     {
-      title: "Custom PC Builds",
-      description: "Expertly assembled custom computers for gaming, video editing, or office productivity, tailored precisely to your budget.",
-      icon: Cpu
-    },
-    {
       title: "Phone & Tablet Repair",
       description: "Screen replacements, battery swaps, and in-depth diagnostics for iPhone, iPad, and Android mobile devices.",
       icon: Smartphone
     },
     {
+      title: "Console Repair",
+      description: "HDMI port replacements, overheating fixes, disk drive repairs, and general maintenance for PlayStation, Xbox, Nintendo Switch, and more.",
+      icon: Gamepad2
+    },
+    {
+      title: "Custom PC Builds",
+      description: "Expertly assembled custom computers for gaming, video editing, or office productivity, tailored precisely to your budget.",
+      icon: Cpu
+    },   
+    {
+      title: "System Tune-ups",
+      description: "Performance optimization, physical dust removal, and thermal paste replacement for desktops, laptops, MacBooks, and gaming consoles.",
+      icon: Gauge
+    }, 
+    {
       title: "Hardware Procurement",
       description: "Sourcing and setup of bulk computer orders for local VT businesses and schools. We handle the logistics and configuration.",
       icon: Package
-    },
-    {
-      title: "Virus & Malware Removal",
-      description: "Complete malware detection and removal. We secure your system and protect your personal data from future cyber threats.",
-      icon: ShieldCheck
-    },
-    {
-      title: "Computer Cleaning",
-      description: "Physical dust removal to prevent overheating, thermal paste re-application, and operating system optimization.",
-      icon: Wind
     },
     {
       title: "Website Development",
@@ -270,7 +272,7 @@ const Services = () => {
     },
     {
       title: "And Much More",
-      description: "Don't see what you need? We probably do it. Call us to discuss your specific technology and smart home requirements.",
+      description: "Don't see what you need? We probably do it. Call us to discuss your specific technology wants and needs.",
       icon: Plus
     }
   ];
@@ -377,7 +379,7 @@ const ServiceArea = () => {
             </div>
             <h2 className="text-3xl font-extrabold mb-4 text-white">Our Service Area</h2>
             <p className="text-slate-300 mb-8 text-lg leading-relaxed">
-              We provide top-tier computer repair, networking, and IT support across Addison County and beyond. While these are our primary hubs, we proudly serve <strong className="text-white">all surrounding communities</strong>. We bring our mobile tech services directly to you.
+              We provide top-tier computer repair, networking, and IT support across Addison County and beyond. While Middlebury, VT is our primary hub, we proudly serve <strong className="text-white">all surrounding communities</strong> in Vermont. We bring our mobile tech services directly to you.
             </p>
             <div className="inline-block bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-sm">
               <p className="text-sm text-slate-300">
@@ -477,7 +479,7 @@ const About = () => {
               Based right here in Addison County, Vermont, I provide personalized IT support and tech repair that big box stores just can't match. 
             </p>
             <p className="text-lg text-slate-600 mb-8">
-              With years of experience troubleshooting everything from vintage desktop computers to modern smart home networks, I understand that every tech problem is unique. I treat your devices with the exact same care I'd treat my own.
+              With years of experience troubleshooting everything from vintage desktop computers to modern virtualization server clusters, I understand that every tech problem is unique. I treat your devices with the exact same care I'd treat my own.
             </p>
             
             <div className="space-y-4">
@@ -501,7 +503,7 @@ const About = () => {
         <div className="mt-24 pt-16 border-t border-slate-100">
           <div className="text-center mb-12">
             <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
-            <p className="text-lg text-slate-600">See what our customers have to say</p>
+            <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
