@@ -568,7 +568,7 @@ const Certifications = () => {
     { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
     { name: 'Cisco CCNA', src: '/assets/CCNA.png' },
     { name: 'Microsoft SC-300', src: '/assets/SC-300.png', customClass: 'scale-90' },
-    { name: 'Microsoft AB-620', src: '/assets/AB620.png' }
+    { name: 'Microsoft AB-620', src: '/assets/AB620.png', customClass: 'scale-115' }
   ];
 
   return (
