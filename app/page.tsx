@@ -411,25 +411,46 @@ const ServiceArea = () => {
 const About = () => {
   const reviews = [
     {
-      name: "Jerry N.",
-      initial: "J",
+      name: "Bev L.",
+      initial: "B",
       color: "bg-blue-600",
+      time: "3 weeks ago",
+      text: "I'm so glad I found Jared to help with the error I had on my laptop. Called on Monday, he came on Tuesday to my house. The error I thought killed my laptop ended up being a quick fix. What a relief. I highly recommend Jared!! Very helpful."
+    },
+    {
+      name: "Ziven M.",
+      initial: "Z",
+      color: "bg-purple-600",
+      time: "1 month ago",
+      text: "Fixed my phone and laptop! Best electronics repair guy in Vermont!"
+    },
+    {
+      name: "Mariah N.",
+      initial: "M",
+      color: "bg-emerald-600",
+      time: "1 month ago",
+      text: "Jared was really helpful setting up my home office and replacing a battery for my laptop. Highly recommended!"
+    },
+    {
+      name: "Darcie L.",
+      initial: "D",
+      color: "bg-indigo-600",
       time: "2 months ago",
-      text: "I took my laptop to Jared after it stopped working entirely. He diagnosed the issue quickly, replaced the hard drive, and upgraded the RAM. It now runs even better than the day I bought it. Highly recommend his services for any tech repairs!"
+      text: "Jared goes above and beyond and knows what he's doing, he's passionate about building and repairing electronics, I'd recommend him to anyone. He's upfront about pricing and super knowledgable. He's also fast and very responsive!"
     },
     {
       name: "Tre B.",
       initial: "T",
       color: "bg-green-600",
-      time: "1 month ago",
+      time: "2 months ago",
       text: "Great service. Jared is very understanding and easy to work with. Super intelligent as well."
     },
     {
-      name: "Darcie L.",
-      initial: "D",
-      color: "bg-purple-600",
-      time: "2 weeks ago",
-      text: "Jared goes above and beyond and knows what he's doing, he's passionate about building and repairing electronics, I'd recommend him to anyone. He's upfront about pricing and super knowledgable. He's also fast and very responsive!"
+      name: "Jerry N.",
+      initial: "J",
+      color: "bg-amber-600",
+      time: "3 months ago",
+      text: "I took my laptop to Jared after it stopped working entirely. He diagnosed the issue quickly, replaced the hard drive, and upgraded the RAM. It now runs even better than the day I bought it. Highly recommend his services for any tech repairs!"
     }
   ];
 
@@ -465,7 +486,7 @@ const About = () => {
                 Our "Repair First" Philosophy
               </h3>
               <p className="text-green-900 relative z-10 leading-relaxed font-medium">
-                We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when necessary. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
+                We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when necessary or requested. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
               </p>
             </div>
 
@@ -546,7 +567,8 @@ const Certifications = () => {
     { name: 'CompTIA Security+', src: '/assets/Security+.png' },
     { name: 'Linux LPI Essentials', src: '/assets/LPIEssentials.png' },
     { name: 'Cisco CCNA', src: '/assets/CCNA.png' },
-    { name: 'Microsoft SC-300', src: '/assets/SC-300.png', customClass: 'scale-90' }
+    { name: 'Microsoft SC-300', src: '/assets/SC-300.png', customClass: 'scale-90' },
+    { name: 'Microsoft AB-620', src: '/assets/AB620.png' }
   ];
 
   return (
