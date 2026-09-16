@@ -520,42 +520,47 @@ const About = () => {
           </div>
         </div>
 
-        {/* Reviews Section */}
-        <div className="mt-24 pt-16 border-t border-slate-100">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
-            <p className="text-lg text-slate-600">See what our customers have to say.</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {reviews.map((review, index) => (
-              <div key={index} className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative">
-                
-                <div className="flex items-center gap-4 mb-4">
-                  <div className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg shadow-inner`}>
-                    {review.initial}
+          {/* Reviews Section */}
+                  <div className="mt-24 pt-16 border-t border-slate-100">
+                    <div className="text-center mb-12">
+                      <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
+                      <p className="text-lg text-slate-600">See what our customers have to say.</p>
+                    </div>
+                    
+                    {/* Continuous Scrolling Single Row */}
+                    <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+                      <div className="animate-scroll flex gap-6 py-4">
+                        {[...reviews, ...reviews].map((review, index) => (
+                          <div 
+                            key={index} 
+                            className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                          >
+                            <div>
+                              <div className="flex items-center gap-4 mb-4">
+                                <div className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg shadow-inner flex-shrink-0`}>
+                                  {review.initial}
+                                </div>
+                                <div>
+                                  <p className="font-bold text-slate-900 leading-snug">{review.name}</p>
+                                  <p className="text-xs text-slate-500 font-medium">{review.time}</p>
+                                </div>
+                              </div>
+                              
+                              <div className="flex gap-1 mb-4">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
+                                ))}
+                              </div>
+                              
+                              <p className="text-slate-600 italic leading-relaxed text-sm">
+                                "{review.text}"
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-slate-900">{review.name}</p>
-                    <p className="text-xs text-slate-500 font-medium">{review.time}</p>
-                  </div>
-                </div>
-                
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                
-                <p className="text-slate-600 italic leading-relaxed">
-                  "{review.text}"
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
     </section>
   );
 };
