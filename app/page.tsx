@@ -28,7 +28,11 @@ import {
   Clock,
   Leaf,
   Map,
-  Star
+  Star,
+  ExternalLink,
+  MessageSquarePlus,
+  Home,
+  Building2
 } from 'lucide-react';
 
 // --- Types ---
@@ -310,45 +314,78 @@ const Pricing = () => {
             Transparent Pricing
           </p>
           <p className="mt-4 text-xl text-slate-600">
-            We believe in honest, straightforward pricing for all our local IT and computer repair services.
+            We believe in honest, straightforward pricing for all our local IT, computer repair, and business support services.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          {/* Hourly Rate Card */}
-          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-blue-100 rounded-full opacity-50"></div>
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-2xl font-bold text-slate-900">Hourly Rate</h3>
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600">
-                <Clock size={24} />
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Minimum Fee Card (Moved to Left) */}
+          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+             <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-green-100 rounded-full opacity-50"></div>
+            <div>
+              <div className="flex items-center justify-between mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900">Minimum Fee</h3>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-green-600">
+                  <DollarSign size={24} />
+                </div>
               </div>
+              <div className="mb-4 relative z-10">
+                <span className="text-5xl font-extrabold text-green-600">$50</span>
+                <span className="text-slate-500 font-medium ml-2">minimum</span>
+              </div>
+              <p className="text-slate-600 relative z-10 mb-6">
+                Applies to all service calls and acts as a base diagnostic fee. If the repair is quick, this is all you pay!
+              </p>
             </div>
-            <div className="mb-4 relative z-10">
-              <span className="text-5xl font-extrabold text-blue-600">$75</span>
-              <span className="text-slate-500 font-medium ml-2">/ hour</span>
+            <div className="pt-4 border-t border-slate-200/60 text-xs text-slate-500 font-medium">
+              Covers standard diagnostic assessment
             </div>
-            <p className="text-slate-600 relative z-10">
-              Our standard rate for computer repairs, network setups, virus removal, and general IT troubleshooting.
-            </p>
           </div>
 
-          {/* Minimum Fee Card */}
-          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-             <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-green-100 rounded-full opacity-50"></div>
-            <div className="flex items-center justify-between mb-4 relative z-10">
-              <h3 className="text-2xl font-bold text-slate-900">Minimum Fee</h3>
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-green-600">
-                <DollarSign size={24} />
+          {/* Residential Rate Card (Middle) */}
+          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-blue-100 rounded-full opacity-50"></div>
+            <div>
+              <div className="flex items-center justify-between mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900">Residential</h3>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600">
+                  <Home size={24} />
+                </div>
               </div>
+              <div className="mb-4 relative z-10">
+                <span className="text-5xl font-extrabold text-blue-600">$80</span>
+                <span className="text-slate-500 font-medium ml-2">/ hour</span>
+              </div>
+              <p className="text-slate-600 relative z-10 mb-6">
+                Standard hourly rate for home computer repairs, custom builds, virus removal, hardware upgrades, and personal tech support.
+              </p>
             </div>
-            <div className="mb-4 relative z-10">
-              <span className="text-5xl font-extrabold text-green-600">$50</span>
-              <span className="text-slate-500 font-medium ml-2">minimum</span>
+            <div className="pt-4 border-t border-slate-200/60 text-xs text-slate-500 font-medium">
+              On-site & mobile service available
             </div>
-            <p className="text-slate-600 relative z-10">
-              Applies to all service calls and acts as a base diagnostic fee. If the repair is quick, this is all you pay!
-            </p>
+          </div>
+
+          {/* Business Rate Card (Right) */}
+          <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-indigo-100 rounded-full opacity-50"></div>
+            <div>
+              <div className="flex items-center justify-between mb-4 relative z-10">
+                <h3 className="text-2xl font-bold text-slate-900">Business</h3>
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-indigo-600">
+                  <Building2 size={24} />
+                </div>
+              </div>
+              <div className="mb-4 relative z-10">
+                <span className="text-5xl font-extrabold text-indigo-600">$90</span>
+                <span className="text-slate-500 font-medium ml-2">/ hour</span>
+              </div>
+              <p className="text-slate-600 relative z-10 mb-6">
+                Specialized IT support for local businesses, office network configurations, server maintenance, bulk hardware deployment, and website management.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-200/60 text-xs text-slate-500 font-medium">
+              Priority scheduling & structured support
+            </div>
           </div>
         </div>
       </div>
@@ -408,61 +445,163 @@ const ServiceArea = () => {
   );
 };
 
+interface ReviewItem {
+  name: string;
+  initial: string;
+  color: string;
+  time: string;
+  text: string;
+  rating?: number;
+  photoUri?: string | null;
+}
+
+const STATIC_REVIEWS: ReviewItem[] = [
+  {
+    name: "Penny Campbell",
+    initial: "P",
+    color: "bg-pink-600",
+    time: "6 days ago",
+    text: "Jared is a wonderful, helpful, even empowering computer expert. He came to my house two days in a row to diagnose old problems, set up my new iMac, and confirm that all my precious data made it through the transition. Thank you!!"
+  },
+  {
+    name: "Bev Lary",
+    initial: "B",
+    color: "bg-blue-600",
+    time: "3 months ago",
+    text: "I'm so glad I found Jared to help with the error I had on my laptop. Called on Monday, he came on Tuesday to my house. The error I thought killed my laptop ended up being a quick fix. What a relief. I highly recommend Jared!! Very helpful."
+  },
+  {
+    name: "Ziven McCarty",
+    initial: "Z",
+    color: "bg-purple-600",
+    time: "3 months ago",
+    text: "Fixed my phone and laptop! Best electronics repair guy in Vermont!"
+  },
+  {
+    name: "Mariah North",
+    initial: "M",
+    color: "bg-emerald-600",
+    time: "3 months ago",
+    text: "Jared was really helpful setting up my home office and replacing a battery for my laptop. Highly recommended!"
+  },
+  {
+    name: "Darcie Leclair",
+    initial: "D",
+    color: "bg-indigo-600",
+    time: "4 months ago",
+    text: "Jared goes above and beyond and knows what he's doing, he's passionate about building and repairing electronics, I'd recommend him to anyone. He's upfront about pricing and super knowledgable. He's also fast and very responsive!"
+  },
+  {
+    name: "Jerry Niemo",
+    initial: "J",
+    color: "bg-amber-600",
+    time: "5 months ago",
+    text: "I took my laptop to Jared after it stopped working entirely. He diagnosed the issue quickly, replaced the hard drive, and upgraded the RAM. It now runs even better than the day I bought it. Highly recommend his services for any tech repairs!"
+  },
+  {
+    name: "Tre Bonavita",
+    initial: "T",
+    color: "bg-green-600",
+    time: "6 months ago",
+    text: "Great service. Jared is very understanding and easy to work with. Super intelligent as well."
+  }
+];
+
+const GOOGLE_REVIEW_LINK = "https://g.page/r/CVen4hHJTd7DEAE/review";
+const GOOGLE_MAPS_REVIEWS_URL = "https://www.google.com/maps/place/Jared's+Computer+Care/@44.0284134,-73.090073,10z/data=!4m8!3m7!1s0x4a02c53d892c7891:0xc3de4dc911e2a757!8m2!3d44.0284134!4d-73.090073!9m1!1b1!16s%2Fg%2F11yrfz3xl3?entry=ttu&g_ep=EgoyMDI2MTAxMi4wIKXMDSoASAFQAw%3D%3D";
+
 const About = () => {
-  const reviews = [
-    {
-      name: "Bev L.",
-      initial: "B",
-      color: "bg-blue-600",
-      time: "3 weeks ago",
-      text: "I'm so glad I found Jared to help with the error I had on my laptop. Called on Monday, he came on Tuesday to my house. The error I thought killed my laptop ended up being a quick fix. What a relief. I highly recommend Jared!! Very helpful."
-    },
-    {
-      name: "Ziven M.",
-      initial: "Z",
-      color: "bg-purple-600",
-      time: "1 month ago",
-      text: "Fixed my phone and laptop! Best electronics repair guy in Vermont!"
-    },
-    {
-      name: "Mariah N.",
-      initial: "M",
-      color: "bg-emerald-600",
-      time: "1 month ago",
-      text: "Jared was really helpful setting up my home office and replacing a battery for my laptop. Highly recommended!"
-    },
-    {
-      name: "Darcie L.",
-      initial: "D",
-      color: "bg-indigo-600",
-      time: "2 months ago",
-      text: "Jared goes above and beyond and knows what he's doing, he's passionate about building and repairing electronics, I'd recommend him to anyone. He's upfront about pricing and super knowledgable. He's also fast and very responsive!"
-    },
-    {
-      name: "Tre B.",
-      initial: "T",
-      color: "bg-green-600",
-      time: "2 months ago",
-      text: "Great service. Jared is very understanding and easy to work with. Super intelligent as well."
-    },
-    {
-      name: "Jerry N.",
-      initial: "J",
-      color: "bg-amber-600",
-      time: "3 months ago",
-      text: "I took my laptop to Jared after it stopped working entirely. He diagnosed the issue quickly, replaced the hard drive, and upgraded the RAM. It now runs even better than the day I bought it. Highly recommend his services for any tech repairs!"
+  const [reviews, setReviews] = useState<ReviewItem[]>(STATIC_REVIEWS);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchLiveReviews() {
+      try {
+        const res = await fetch('/api/reviews');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (isMounted && Array.isArray(data.reviews) && data.reviews.length > 0) {
+          // Helper to normalize names to "First L." for clean deduplication
+          const getNormalizedKey = (name: string) => {
+            const parts = name.trim().split(' ');
+            if (parts.length > 1) {
+              return `${parts[0].toLowerCase()} ${parts[parts.length - 1].charAt(0).toLowerCase()}`;
+            }
+            return name.trim().toLowerCase();
+          };
+
+          const liveKeys = new Set(
+            data.reviews.map((r: ReviewItem) => getNormalizedKey(r.name))
+          );
+
+          // Keep static reviews that don't match any live review keys
+          const remainingStatic = STATIC_REVIEWS.filter(
+            (r) => !liveKeys.has(getNormalizedKey(r.name))
+          );
+
+          // Combine live reviews with the non-duplicate static reviews
+          setReviews([...data.reviews, ...remainingStatic]);
+        }
+      } catch {
+        // Fallback to static
+      }
     }
-  ];
+
+    fetchLiveReviews();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section id="about" className="py-24 bg-white">
+      {/* Local Business Schema for Google SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ComputerRepairService",
+            "name": "Jared's Computer Care",
+            "image": "https://jaredscomputercare.com/assets/mainlogo.png",
+            "telephone": "+18023987650",
+            "email": "jared@jaredscomputercare.com",
+            "url": "https://jaredscomputercare.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Middlebury",
+              "addressRegion": "VT",
+              "postalCode": "05753",
+              "addressCountry": "US"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 44.0284134,
+              "longitude": -73.090073
+            },
+            "priceRange": "$$",
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              "opens": "08:00",
+              "closes": "20:00"
+            },
+            "areaServed": {
+              "@type": "AdministrativeArea",
+              "name": "Addison County, Vermont"
+            }
+          })
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
           <div className="mb-12 lg:mb-0 relative">
             <div className="absolute top-0 left-0 -ml-4 -mt-4 w-24 h-24 bg-blue-100 rounded-full z-0 opacity-50"></div>
             <div className="relative z-10 bg-slate-900 rounded-2xl p-8 shadow-2xl text-white">
               <div className="flex items-center gap-4 mb-6">
-                 {/* Headshot Image */}
                 <img 
                   src="/assets/headshot.png" 
                   alt="Jared Messner - Founder of Jared's Computer Care" 
@@ -478,7 +617,6 @@ const About = () => {
               </p>
             </div>
 
-            {/* Repair First Philosophy Box */}
             <div className="mt-8 bg-green-50 border border-green-200 rounded-2xl p-8 relative overflow-hidden shadow-sm">
               <Leaf className="absolute -bottom-6 -right-6 text-green-100 h-40 w-40 transform rotate-12" />
               <h3 className="text-2xl font-bold text-green-800 mb-3 flex items-center gap-3 relative z-10">
@@ -489,7 +627,6 @@ const About = () => {
                 We firmly believe in repairing your existing technology first. Selling you a new product is our second option, recommended only when necessary or requested. We operate with honesty and integrity, and we care about our green earth by actively working to reduce e-waste.
               </p>
             </div>
-
           </div>
           
           <div>
@@ -522,8 +659,16 @@ const About = () => {
 
         {/* Reviews Section */}
         <div className="mt-24 pt-16 border-t border-slate-100">
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-50 border border-yellow-200 mb-3">
+              <div className="flex gap-0.5">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+              <span className="text-xs font-bold text-slate-700">5.0 Rating on Google</span>
+            </div>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">Trusted by Addison County</h3>
             <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
@@ -531,23 +676,37 @@ const About = () => {
           <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <div className="animate-scroll flex gap-6 py-4">
               {[...reviews, ...reviews].map((review, index) => (
-                <div 
-                  key={index} 
-                  className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                <a
+                  key={index}
+                  href={GOOGLE_MAPS_REVIEWS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all flex flex-col justify-between group"
                 >
                   <div>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg shadow-inner flex-shrink-0`}>
-                        {review.initial}
+                    <div className="flex items-center justify-between gap-4 mb-4">
+                      <div className="flex items-center gap-4">
+                        {review.photoUri ? (
+                          <img 
+                            src={review.photoUri} 
+                            alt={`${review.name} Google Review Profile Picture`} 
+                            className="w-12 h-12 rounded-full object-cover border border-slate-200 shadow-inner flex-shrink-0"
+                          />
+                        ) : (
+                          <div className={`w-12 h-12 rounded-full ${review.color} text-white flex items-center justify-center font-bold text-lg shadow-inner flex-shrink-0`}>
+                            {review.initial}
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">{review.name}</p>
+                          <p className="text-xs text-slate-500 font-medium">{review.time}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-bold text-slate-900 leading-snug">{review.name}</p>
-                        <p className="text-xs text-slate-500 font-medium">{review.time}</p>
-                      </div>
+                      <ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors flex-shrink-0" />
                     </div>
                     
                     <div className="flex gap-1 mb-4">
-                      {[...Array(5)].map((_, i) => (
+                      {[...Array(review.rating || 5)].map((_, i) => (
                         <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
@@ -556,9 +715,22 @@ const About = () => {
                       "{review.text}"
                     </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
+          </div>
+
+          {/* Leave a Review Action Button */}
+          <div className="mt-10 flex items-center justify-center">
+            <a
+              href={GOOGLE_REVIEW_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+            >
+              <MessageSquarePlus size={18} />
+              Leave a Review on Google
+            </a>
           </div>
         </div>
 

@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: "Jared's Computer Care | Mobile IT Services in Addison County, VT",
   description: 'Expert computer repair, upgrades, and custom builds. We come to you! Serving Addison County, Vermont.',
+  keywords: ['computer repair Middlebury VT', 'IT services Addison County Vermont', 'computer repair Vermont', 'phone repair Vermont', 'mobile computer repair near me'],
   
   // This is what controls the icon in the Browser Tab AND Google Search
   icons: {
