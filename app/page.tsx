@@ -512,6 +512,7 @@ const GOOGLE_MAPS_REVIEWS_URL = "https://www.google.com/maps/place/Jared's+Compu
 
 const About = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>(STATIC_REVIEWS);
+  const [isTouchPaused, setIsTouchPaused] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -523,7 +524,6 @@ const About = () => {
         const data = await res.json();
 
         if (isMounted && Array.isArray(data.reviews) && data.reviews.length > 0) {
-          // Helper to normalize names to "First L." for clean deduplication
           const getNormalizedKey = (name: string) => {
             const parts = name.trim().split(' ');
             if (parts.length > 1) {
@@ -536,12 +536,10 @@ const About = () => {
             data.reviews.map((r: ReviewItem) => getNormalizedKey(r.name))
           );
 
-          // Keep static reviews that don't match any live review keys
           const remainingStatic = STATIC_REVIEWS.filter(
             (r) => !liveKeys.has(getNormalizedKey(r.name))
           );
 
-          // Combine live reviews with the non-duplicate static reviews
           setReviews([...data.reviews, ...remainingStatic]);
         }
       } catch {
@@ -672,16 +670,19 @@ const About = () => {
             <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
-          {/* Continuous Scrolling Single Row */}
-          <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-            <div className="animate-scroll flex gap-6 py-4">
+          {/* Continuous Scrolling Single Row with Touch Hold Support */}
+          <div 
+            className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
+            onTouchStart={() => setIsTouchPaused(true)}
+            onTouchEnd={() => setIsTouchPaused(false)}
+            onMouseDown={() => setIsTouchPaused(true)}
+            onMouseUp={() => setIsTouchPaused(false)}
+          >
+            <div className={`animate-scroll flex gap-6 py-4 ${isTouchPaused ? 'touch-paused' : ''}`}>
               {[...reviews, ...reviews].map((review, index) => (
-                <a
+                <div
                   key={index}
-                  href={GOOGLE_MAPS_REVIEWS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all flex flex-col justify-between group"
+                  className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between cursor-default"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-4">
@@ -698,11 +699,10 @@ const About = () => {
                           </div>
                         )}
                         <div>
-                          <p className="font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">{review.name}</p>
+                          <p className="font-bold text-slate-900 leading-snug">{review.name}</p>
                           <p className="text-xs text-slate-500 font-medium">{review.time}</p>
                         </div>
                       </div>
-                      <ExternalLink size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors flex-shrink-0" />
                     </div>
                     
                     <div className="flex gap-1 mb-4">
@@ -715,7 +715,7 @@ const About = () => {
                       "{review.text}"
                     </p>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>
@@ -1060,6 +1060,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const [isLoading, setIsLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
@@ -1074,7 +1075,15 @@ export default function App() {
   }, []);
 
   const handleNavigate = (page: string, sectionId?: string) => {
-    setCurrentPage(page);
+    if (page !== currentPage) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setCurrentPage(page);
+        setIsLoading(false);
+        window.scrollTo(0, 0);
+      }, 250); // Fast, snappy 250ms transition
+      return;
+    }
     
     if (page === 'home' && sectionId) {
       setTimeout(() => {
@@ -1092,23 +1101,35 @@ export default function App() {
   };
 
   return (
-    <div className="font-sans antialiased text-slate-900 bg-slate-50 min-h-screen relative">
-      <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
-      
-      <main>
-        {currentPage === 'home' ? (
-          <>
-            <Hero onNavigate={handleNavigate} />
-            <Services />
-            <Pricing />
-            <ServiceArea />
-            <About />
-            <Certifications />
-          </>
-        ) : (
-          <ContactPage onNavigate={handleNavigate} />
-        )}
-      </main>
+    <div className="font-sans antialiased text-slate-900 bg-slate-50 min-h-screen relative flex flex-col justify-between">
+      <div>
+        <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+        
+        {/* Main Content Container with Fixed Min-Height to Prevent Layout Jumps */}
+        <div className="min-h-[80vh] relative">
+          {isLoading ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/80 backdrop-blur-sm z-40 transition-opacity">
+              <div className="w-10 h-10 border-3 border-blue-600 border-t-transparent rounded-full animate-spin shadow-sm"></div>
+              <p className="mt-3 text-slate-500 font-medium text-xs tracking-wider uppercase animate-pulse">Loading...</p>
+            </div>
+          ) : (
+            <main className="animate-fade-in">
+              {currentPage === 'home' ? (
+                <>
+                  <Hero onNavigate={handleNavigate} />
+                  <Services />
+                  <Pricing />
+                  <ServiceArea />
+                  <About />
+                  <Certifications />
+                </>
+              ) : (
+                <ContactPage onNavigate={handleNavigate} />
+              )}
+            </main>
+          )}
+        </div>
+      </div>
       
       <Footer onNavigate={handleNavigate} />
 

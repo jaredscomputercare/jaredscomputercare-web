@@ -38,8 +38,33 @@ body {
   display: flex;
   width: max-content;
   animation: scroll-left 35s linear infinite;
+  /* Smooth easing transition when pausing/resuming */
+  transition: animation-play-state 0.4s ease-in-out;
 }
 
-.animate-scroll:hover {
+/* Pause on desktop hover only */
+@media (hover: hover) {
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+}
+
+/* Pause when holding touch on mobile */
+.animate-scroll.touch-paused {
   animation-play-state: paused;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
