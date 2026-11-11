@@ -188,6 +188,9 @@ const Hero = ({ onNavigate }: HeroProps) => {
                 IT Services <br className="hidden md:block" />
                 & Computer Repair
               </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white-400 to-grey-400 pb-2 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
+                & Computer Repair
+              </span>
             </h1>
             
             <p 
