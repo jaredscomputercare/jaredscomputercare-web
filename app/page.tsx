@@ -712,7 +712,7 @@ const About = () => {
               {displayedReviews.map((review, index) => (
                 <div
                   key={`${review.name}-${currentIndex}-${index}`}
-                  className="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between animate-fade-in"
+                  className="h-[340px] sm:h-[320px] bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between overflow-y-auto animate-fade-in"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-4">
