@@ -25,35 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-scroll {
-  display: flex;
-  width: max-content;
-  animation: scroll-left 35s linear infinite;
-  /* Smooth easing transition when pausing/resuming */
-  transition: animation-play-state 0.4s ease-in-out;
-}
-
-/* Pause on desktop hover only */
-@media (hover: hover) {
-  .animate-scroll:hover {
-    animation-play-state: paused;
-  }
-}
-
-/* Pause when holding touch on mobile */
-.animate-scroll.touch-paused {
-  animation-play-state: paused;
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

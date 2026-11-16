@@ -15,6 +15,7 @@ import {
   Menu, 
   X,
   ChevronRight,
+  ChevronLeft,
   CheckCircle2,
   Send,
   ArrowLeft,
@@ -317,7 +318,7 @@ const Pricing = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {/* Minimum Fee Card (Moved to Left) */}
+          {/* Minimum Fee Card (Left) */}
           <div className="bg-slate-50 rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
              <div className="absolute top-0 right-0 -mr-4 -mt-4 w-24 h-24 bg-green-100 rounded-full opacity-50"></div>
             <div>
@@ -328,7 +329,7 @@ const Pricing = () => {
                 </div>
               </div>
               <div className="mb-4 relative z-10">
-                <span className="text-5xl font-extrabold text-green-600">$50</span>
+                <span className="text-5xl font-extrabold text-green-600">$70</span>
                 <span className="text-slate-500 font-medium ml-2">minimum</span>
               </div>
               <p className="text-slate-600 relative z-10 mb-6">
@@ -410,7 +411,6 @@ const ServiceArea = () => {
           {/* Left Column: Text & Info */}
           <div className="lg:col-span-5 mb-12 lg:mb-0">
             <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6">
-              <Map className="text-blue-400" size={32} />
             </div>
             <h2 className="text-3xl font-extrabold mb-4 text-white">Our Service Area</h2>
             <p className="text-slate-300 mb-8 text-lg leading-relaxed">
@@ -509,8 +509,25 @@ const GOOGLE_REVIEW_LINK = "https://g.page/r/CVen4hHJTd7DEAE/review";
 const GOOGLE_MAPS_REVIEWS_URL = "https://www.google.com/maps/place/Jared's+Computer+Care/@44.0284134,-73.090073,10z/data=!4m8!3m7!1s0x4a02c53d892c7891:0xc3de4dc911e2a757!8m2!3d44.0284134!4d-73.090073!9m1!1b1!16s%2Fg%2F11yrfz3xl3?entry=ttu&g_ep=EgoyMDI2MTAxMi4wIKXMDSoASAFQAw%3D%3D";
 
 const About = () => {
-  const [reviews, setReviews] = useState<ReviewItem[]>(STATIC_REVIEWS);
-  const [isTouchPaused, setIsTouchPaused] = useState(false);
+  const [reviews, setReviews] = useState<ReviewItem[]>(STATIC_REVIEWS.slice(0, 5));
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener('resize', updateVisibleCount);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -538,7 +555,7 @@ const About = () => {
             (r) => !liveKeys.has(getNormalizedKey(r.name))
           );
 
-          setReviews([...data.reviews, ...remainingStatic]);
+          setReviews([...data.reviews, ...remainingStatic].slice(0, 5));
         }
       } catch {
         // Fallback to static
@@ -550,6 +567,18 @@ const About = () => {
       isMounted = false;
     };
   }, []);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % reviews.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
+  };
+
+  const displayedReviews = Array.from({ length: Math.min(visibleCount, reviews.length) }, (_, idx) => {
+    return reviews[(currentIndex + idx) % reviews.length];
+  });
 
   return (
     <section id="about" className="py-24 bg-white">
@@ -668,19 +697,21 @@ const About = () => {
             <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
-          {/* Continuous Scrolling Single Row with Touch Hold Support */}
-          <div 
-            className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
-            onTouchStart={() => setIsTouchPaused(true)}
-            onTouchEnd={() => setIsTouchPaused(false)}
-            onMouseDown={() => setIsTouchPaused(true)}
-            onMouseUp={() => setIsTouchPaused(false)}
-          >
-            <div className={`animate-scroll flex gap-6 py-4 ${isTouchPaused ? 'touch-paused' : ''}`}>
-              {[...reviews, ...reviews].map((review, index) => (
+          {/* Static Reviews Carousel with Arrow Navigation */}
+          <div className="relative flex items-center gap-2 sm:gap-4">
+            <button
+              onClick={handlePrev}
+              aria-label="Previous review"
+              className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 hover:text-blue-600 text-slate-700 flex items-center justify-center transition-all cursor-pointer"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+              {displayedReviews.map((review, index) => (
                 <div
-                  key={index}
-                  className="w-[340px] md:w-[380px] flex-shrink-0 bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between cursor-default"
+                  key={`${review.name}-${currentIndex}-${index}`}
+                  className="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between animate-fade-in"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-4">
@@ -716,6 +747,28 @@ const About = () => {
                 </div>
               ))}
             </div>
+
+            <button
+              onClick={handleNext}
+              aria-label="Next review"
+              className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 hover:text-blue-600 text-slate-700 flex items-center justify-center transition-all cursor-pointer"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="flex justify-center items-center gap-2 mt-6">
+            {reviews.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                aria-label={`View review ${idx + 1}`}
+                className={`h-2 rounded-full transition-all cursor-pointer ${
+                  currentIndex === idx ? 'w-6 bg-blue-600' : 'w-2 bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
           </div>
 
           {/* Leave a Review Action Button */}
