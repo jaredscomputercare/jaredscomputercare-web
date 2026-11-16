@@ -411,6 +411,7 @@ const ServiceArea = () => {
           {/* Left Column: Text & Info */}
           <div className="lg:col-span-5 mb-12 lg:mb-0">
             <div className="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center mb-6">
+              <MapIcon className="text-blue-400" size={32} />
             </div>
             <h2 className="text-3xl font-extrabold mb-4 text-white">Our Service Area</h2>
             <p className="text-slate-300 mb-8 text-lg leading-relaxed">
@@ -907,7 +908,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
 
               <div className="flex items-start">
                 <div className="flex-shrink-0 bg-green-100 rounded-lg p-3">
-                  <MapIcon className="text-green-600" size={24} />
+                  <MapPin className="text-green-600" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-slate-900">Service Area</h3>
