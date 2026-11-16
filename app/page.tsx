@@ -28,7 +28,7 @@ import {
   DollarSign,
   Clock,
   Leaf,
-  Map,
+  Map as MapIcon,
   Star,
   ExternalLink,
   MessageSquarePlus,
@@ -907,7 +907,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
 
               <div className="flex items-start">
                 <div className="flex-shrink-0 bg-green-100 rounded-lg p-3">
-                  <MapPin className="text-green-600" size={24} />
+                  <MapIcon className="text-green-600" size={24} />
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-medium text-slate-900">Service Area</h3>
