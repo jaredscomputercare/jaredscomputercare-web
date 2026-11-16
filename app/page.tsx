@@ -712,7 +712,7 @@ const About = () => {
               {displayedReviews.map((review, index) => (
                 <div
                   key={`${review.name}-${currentIndex}-${index}`}
-                  className="h-[500px] sm:h-[320px] bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between overflow-y-auto animate-fade-in"
+                  className="h-[500px] sm:h-[320px] bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between animate-fade-in"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-4">
@@ -741,7 +741,7 @@ const About = () => {
                       ))}
                     </div>
                     
-                    <p className="text-slate-600 italic leading-relaxed text-sm">
+                    <p className="text-slate-600 italic leading-relaxed text-sm line-clamp-6">
                       "{review.text}"
                     </p>
                   </div>
