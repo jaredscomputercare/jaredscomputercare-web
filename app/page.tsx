@@ -917,7 +917,7 @@ const ContactPage = ({ onNavigate, onSuccess }: ContactPageProps) => {
       setFileName(null);
       onSuccess();
       onNavigate('home');
-    }, 2000);
+    }, 750);
   };
 
   return (
