@@ -699,7 +699,7 @@ const About = () => {
             <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
-          {/* Static Reviews Carousel with Arrow Navigation & Fixed Height */}
+          {/* Static Reviews Carousel with Arrow Navigation & Fixed Non-Scrollable Height */}
           <div className="relative flex items-center gap-2 sm:gap-4">
             <button
               onClick={handlePrev}
@@ -857,12 +857,13 @@ const ContactPage = ({ onNavigate, onSuccess }: ContactPageProps) => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError(null);
 
-    try {
+    // Fire the request in the background without blocking the UI
+    if (file) {
       const formData = new FormData();
       formData.append('name', formState.name);
       formData.append('phone', formState.phone);
@@ -875,23 +876,36 @@ const ContactPage = ({ onNavigate, onSuccess }: ContactPageProps) => {
         '_autoresponse',
         "Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly."
       );
+      formData.append('attachment', file);
 
-      if (file) {
-        formData.append('attachment', file);
-      }
-
-      const response = await fetch('https://formsubmit.co/ajax/jared@jaredscomputercare.com', {
+      fetch('https://formsubmit.co/jared@jaredscomputercare.com', {
+        method: 'POST',
+        body: formData
+      }).catch(() => {});
+    } else {
+      fetch('https://formsubmit.co/ajax/jared@jaredscomputercare.com', {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Accept: 'application/json'
         },
-        body: formData
-      });
+        body: JSON.stringify({
+          name: formState.name,
+          phone: formState.phone,
+          email: formState.email,
+          service: formState.service,
+          message: formState.message,
+          _subject: "New Inquiry - Jared's Computer Care",
+          _captcha: 'false',
+          _autoresponse:
+            "Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly."
+        })
+      }).catch(() => {});
+    }
 
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
+    // Show confirmation modal after 2 seconds
+    setTimeout(() => {
+      setIsSubmitting(false);
       setFormState({
         name: '',
         email: '',
@@ -903,11 +917,7 @@ const ContactPage = ({ onNavigate, onSuccess }: ContactPageProps) => {
       setFileName(null);
       onSuccess();
       onNavigate('home');
-    } catch {
-      setSubmitError('Something went wrong sending your message. Please call or text (802) 398-7650 directly.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    }, 2000);
   };
 
   return (
