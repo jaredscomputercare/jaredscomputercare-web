@@ -59,6 +59,7 @@ interface ServiceCardProps {
 
 interface ContactPageProps {
   onNavigate: NavigationHandler;
+  onSuccess: () => void;
 }
 
 interface FooterProps {
@@ -698,7 +699,7 @@ const About = () => {
             <p className="text-lg text-slate-600">See what our customers have to say.</p>
           </div>
           
-          {/* Static Reviews Carousel with Arrow Navigation */}
+          {/* Static Reviews Carousel with Arrow Navigation & Fixed Height */}
           <div className="relative flex items-center gap-2 sm:gap-4">
             <button
               onClick={handlePrev}
@@ -712,7 +713,7 @@ const About = () => {
               {displayedReviews.map((review, index) => (
                 <div
                   key={`${review.name}-${currentIndex}-${index}`}
-                  className="h-[500px] sm:h-[320px] bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between animate-fade-in"
+                  className="h-[340px] sm:h-[320px] bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden animate-fade-in"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-4 mb-4">
@@ -829,27 +830,22 @@ const Certifications = () => {
   );
 };
 
-const ContactPage = ({ onNavigate }: ContactPageProps) => {
+const ContactPage = ({ onNavigate, onSuccess }: ContactPageProps) => {
   const [formState, setFormState] = useState({
     name: '',
     email: '',
     phone: '',
-    device: 'Laptop',
+    service: 'Computer Repairs & Upgrades',
     message: ''
   });
+  const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
-  const [redirectUrl, setRedirectUrl] = useState('');
-
-  useEffect(() => {
-    // Tell FormSubmit to send the user back to the home page WITH a success flag
-    if (typeof window !== 'undefined') {
-        const baseUrl = window.location.origin;
-        setRedirectUrl(`${baseUrl}/?success=true`);
-    }
-  }, []);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
       setFileName(e.target.files[0].name);
     }
   };
@@ -859,6 +855,59 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
       ...formState,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const formData = new FormData();
+      formData.append('name', formState.name);
+      formData.append('phone', formState.phone);
+      formData.append('email', formState.email);
+      formData.append('service', formState.service);
+      formData.append('message', formState.message);
+      formData.append('_subject', "New Inquiry - Jared's Computer Care");
+      formData.append('_captcha', 'false');
+      formData.append(
+        '_autoresponse',
+        "Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly."
+      );
+
+      if (file) {
+        formData.append('attachment', file);
+      }
+
+      const response = await fetch('https://formsubmit.co/ajax/jared@jaredscomputercare.com', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json'
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+
+      setFormState({
+        name: '',
+        email: '',
+        phone: '',
+        service: 'Computer Repairs & Upgrades',
+        message: ''
+      });
+      setFile(null);
+      setFileName(null);
+      onSuccess();
+      onNavigate('home');
+    } catch {
+      setSubmitError('Something went wrong sending your message. Please call or text (802) 398-7650 directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -923,19 +972,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
           <div className="bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
             
-            <form 
-              action="https://formsubmit.co/jared@jaredscomputercare.com" 
-              method="POST" 
-              encType="multipart/form-data"
-              className="space-y-6"
-            >
-              {/* FormSubmit Configuration */}
-              <input type="hidden" name="_subject" value="New Inquiry - Jared's Computer Care" />
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_autoresponse" value="Thank you for contacting Jared's Computer Care. We have received your message and will get back to you shortly." />
-              
-              <input type="hidden" name="_next" value={redirectUrl} />
-
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Name</label>
@@ -943,6 +980,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     type="text"
                     id="name"
                     name="name"
+                    value={formState.name}
                     required
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     placeholder="John Doe"
@@ -955,6 +993,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                     type="tel"
                     id="phone"
                     name="phone"
+                    value={formState.phone}
                     required
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     placeholder="(802) 555-0123"
@@ -969,6 +1008,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   type="email"
                   id="email"
                   name="email"
+                  value={formState.email}
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                   placeholder="john@example.com"
@@ -981,6 +1021,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                 <select
                   id="service"
                   name="service"
+                  value={formState.service}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
                   onChange={handleChange}
                 >
@@ -1031,6 +1072,7 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                   id="message"
                   name="message"
                   rows={4}
+                  value={formState.message}
                   required
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                   placeholder="Briefly describe the issue..."
@@ -1038,12 +1080,19 @@ const ContactPage = ({ onNavigate }: ContactPageProps) => {
                 />
               </div>
 
+              {submitError && (
+                <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-md"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 transition-all shadow-md cursor-pointer"
               >
-                Send Message
-                <Send className="ml-2" size={18} />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {!isSubmitting && <Send className="ml-2" size={18} />}
               </button>
               <p className="text-xs text-slate-500 text-center mt-4">
                 We respect your privacy. Your information is never shared.
@@ -1177,7 +1226,10 @@ export default function App() {
                   <Certifications />
                 </>
               ) : (
-                <ContactPage onNavigate={handleNavigate} />
+                <ContactPage 
+                  onNavigate={handleNavigate} 
+                  onSuccess={() => setShowSuccessModal(true)} 
+                />
               )}
             </main>
           )}
